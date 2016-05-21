@@ -5,17 +5,15 @@
  *
  * @author Bluetel Solutions <developers@bluetel.co.uk>
  * @author Joe Jones <jdj@bluetel.co.uk>
- * 
  * @copyright Copyright (C) eZ Systems AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-
 namespace EzSystems\EzPriceBundle\eZ\Publish\Core\FieldType\MultiPrice;
 
 use Exception;
 use eZ\Publish\Core\FieldType\GatewayBasedStorage;
-use eZ\Publish\SPI\Persistence\Content\VersionInfo;
 use eZ\Publish\SPI\Persistence\Content\Field;
+use eZ\Publish\SPI\Persistence\Content\VersionInfo;
 
 /**
  * Description of MultiPriceStorage.
@@ -45,24 +43,24 @@ use eZ\Publish\SPI\Persistence\Content\Field;
 class MultiPriceStorage extends GatewayBasedStorage
 {
     /**
-     * NOT SUPPORTED - Store the field data
-     * 
+     * NOT SUPPORTED - Store the field data.
+     *
      * @param \eZ\Publish\SPI\Persistence\Content\Field $field
-     * @param array $context
+     * @param array                                     $context
      *
      * @return null|true
      */
     public function storeFieldData(VersionInfo $versionInfo, Field $field, array $context)
     {
         // Update the prices from the new stack
-        throw new Exception("Updating MultiPrice fields is not yet supported.");
+        throw new Exception('Updating MultiPrice fields is not yet supported.');
     }
 
     /**
      * Add Multiprice information into the externalData property of the field value.
      *
      * @param \eZ\Publish\SPI\Persistence\Content\Field $field
-     * @param array $context
+     * @param array                                     $context
      */
     public function getFieldData(VersionInfo $versionInfo, Field $field, array $context)
     {
@@ -71,18 +69,18 @@ class MultiPriceStorage extends GatewayBasedStorage
     }
 
     /**
-     * NOT SUPPORTED - Delete the external information for the MultiPrice field
-     * 
+     * NOT SUPPORTED - Delete the external information for the MultiPrice field.
+     *
      * @param VersionInfo $versionInfo
-     * @param array $fieldIds Array of field Ids
-     * @param array $context
+     * @param array       $fieldIds    Array of field Ids
+     * @param array       $context
      *
      * @return bool
      */
     public function deleteFieldData(VersionInfo $versionInfo, array $fieldIds, array $context)
     {
         // Only the UserService may update user data
-        throw new Exception("Deleting MultiPrice fields is not yet supported.");
+        throw new Exception('Deleting MultiPrice fields is not yet supported.');
     }
 
     /**
@@ -97,8 +95,8 @@ class MultiPriceStorage extends GatewayBasedStorage
 
     /**
      * @param \eZ\Publish\SPI\Persistence\Content\VersionInfo $versionInfo
-     * @param \eZ\Publish\SPI\Persistence\Content\Field $field
-     * @param array $context
+     * @param \eZ\Publish\SPI\Persistence\Content\Field       $field
+     * @param array                                           $context
      *
      * @return \eZ\Publish\SPI\Search\Field[]
      */

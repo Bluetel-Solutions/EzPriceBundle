@@ -5,11 +5,10 @@
  * @copyright Copyright (C) eZ Systems AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-
 namespace EzSystems\EzPriceBundle\Tests\Core\MultiPrice;
 
-use EzSystems\EzPriceBundle\Core\Vat\UserCountry;
 use eZ\Publish\Core\Persistence\Legacy\Tests\TestCase;
+use EzSystems\EzPriceBundle\Core\Vat\UserCountry;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\Storage\MockFileSessionStorage;
 
@@ -26,13 +25,13 @@ class UserCountryTest extends TestCase
     {
         $mockSession = new Session(new MockFileSessionStorage());
 
-        $sessionVariableName = "TestUserCountrySession";
+        $sessionVariableName = 'TestUserCountrySession';
 
-        $defaultCountry = "GB";
+        $defaultCountry = 'GB';
 
         $currencyService = new UserCountry($mockSession, $defaultCountry, $sessionVariableName);
-        
-        $this->assertEquals("GB", $currencyService->fetchUsersCountry());
+
+        $this->assertEquals('GB', $currencyService->fetchUsersCountry());
     }
 
     /**
@@ -43,14 +42,14 @@ class UserCountryTest extends TestCase
     {
         $mockSession = new Session(new MockFileSessionStorage());
 
-        $sessionVariableName = "TestCurrencyServiceCurrency";
+        $sessionVariableName = 'TestCurrencyServiceCurrency';
 
-        $mockSession->set($sessionVariableName, "US");
+        $mockSession->set($sessionVariableName, 'US');
 
-        $defaultCountry = "GB";
+        $defaultCountry = 'GB';
 
         $currencyService = new UserCountry($mockSession, $defaultCountry, $sessionVariableName);
-        
-        $this->assertEquals("US", $currencyService->fetchUsersCountry());
+
+        $this->assertEquals('US', $currencyService->fetchUsersCountry());
     }
 }

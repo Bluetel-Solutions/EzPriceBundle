@@ -5,17 +5,15 @@
  * @copyright Copyright (C) eZ Systems AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-
 namespace EzSystems\EzPriceBundle\Tests\eZ\Publish\Core\Persistence\Legacy\Content\FieldValue\Converter;
 
-use eZ\Publish\SPI\Persistence\Content\FieldValue;
 use eZ\Publish\Core\Persistence\Legacy\Content\StorageFieldValue;
+use eZ\Publish\SPI\Persistence\Content\FieldValue;
 use EzSystems\EzPriceBundle\eZ\Publish\Core\Persistence\Legacy\Content\FieldValue\Converter\Price as PriceConverter;
 use PHPUnit_Framework_TestCase;
-use DOMDocument;
 
 /**
- * Test case for Price converter in Legacy storage
+ * Test case for Price converter in Legacy storage.
  *
  * @group fieldType
  * @group ezprice
@@ -30,7 +28,7 @@ class PriceTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         parent::setUp();
-        $this->converter = new PriceConverter;
+        $this->converter = new PriceConverter();
     }
 
     /**
@@ -42,20 +40,20 @@ class PriceTest extends PHPUnit_Framework_TestCase
         $isVatIncluded = 1;
 
         $fieldValue = new FieldValue(
-            array(
-                'data' => array(
-                    'price' => $price,
-                    'isVatIncluded' => $isVatIncluded
-                )
-            )
+            [
+                'data' => [
+                    'price'         => $price,
+                    'isVatIncluded' => $isVatIncluded,
+                ],
+            ]
         );
 
-        $storageFieldValue = new StorageFieldValue;
+        $storageFieldValue = new StorageFieldValue();
 
-        $this->converter->toStorageValue( $fieldValue, $storageFieldValue );
+        $this->converter->toStorageValue($fieldValue, $storageFieldValue);
 
-        self::assertEquals( $price, $storageFieldValue->dataFloat );
-        self::assertEquals( "1,1", $storageFieldValue->dataText );
+        self::assertEquals($price, $storageFieldValue->dataFloat);
+        self::assertEquals('1,1', $storageFieldValue->dataText);
     }
 
     /**
@@ -67,17 +65,17 @@ class PriceTest extends PHPUnit_Framework_TestCase
         $price = 3.1415;
 
         $storageFieldValue = new StorageFieldValue(
-            array(
+            [
                 'dataFloat' => $price,
-                'dataText' => "$isVatIncluded,1"
-            )
+                'dataText'  => "$isVatIncluded,1",
+            ]
         );
 
-        $fieldValue = new FieldValue;
+        $fieldValue = new FieldValue();
 
-        $this->converter->toFieldValue( $storageFieldValue, $fieldValue );
+        $this->converter->toFieldValue($storageFieldValue, $fieldValue);
 
-        self::assertEquals( $price, $fieldValue->data['price'] );
-        self::assertEquals( $isVatIncluded, $fieldValue->data['isVatIncluded'] );
+        self::assertEquals($price, $fieldValue->data['price']);
+        self::assertEquals($isVatIncluded, $fieldValue->data['isVatIncluded']);
     }
 }
