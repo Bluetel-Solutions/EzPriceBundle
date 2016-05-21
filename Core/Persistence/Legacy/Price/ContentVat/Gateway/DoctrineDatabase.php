@@ -5,59 +5,57 @@
  * @copyright Copyright (C) eZ Systems AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-
 namespace EzSystems\EzPriceBundle\Core\Persistence\Legacy\Price\ContentVat\Gateway;
 
-use EzSystems\EzPriceBundle\Core\Persistence\Legacy\Price\ContentVat\Gateway;
 use eZ\Publish\Core\Persistence\Database\DatabaseHandler;
-use EzSystems\EzPriceBundle\Core\Persistence\Legacy\Price\ContentVat\Gateway\VatIdentifierNotFoundException;
+use EzSystems\EzPriceBundle\Core\Persistence\Legacy\Price\ContentVat\Gateway;
 use PDO;
 
 class DoctrineDatabase extends Gateway
 {
     /**
-     * Database handler
+     * Database handler.
      *
      * @var \eZ\Publish\Core\Persistence\Database\DatabaseHandler
      */
     protected $handler;
 
     /**
-     * Construct from database handler
+     * Construct from database handler.
      *
      * @param \eZ\Publish\Core\Persistence\Database\DatabaseHandler $handler
      */
-    public function __construct( DatabaseHandler $handler )
+    public function __construct(DatabaseHandler $handler)
     {
         $this->handler = $handler;
     }
 
     /**
-     * Gets the id of the vat rate associated with $fieldId and $versionNo
+     * Gets the id of the vat rate associated with $fieldId and $versionNo.
      *
      * @param $fieldId
      * @param $versionNo
      *
      * @throws \EzSystems\EzPriceBundle\Core\Persistence\Legacy\Price\ContentVat\Gateway\VatIdentifierNotFoundException
-     *         when vat_identifier can't be found (empty data_text).
+     *                                                                                                                  when vat_identifier can't be found (empty data_text).
      *
      * @return int;
      */
-    public function getVatRateId( $fieldId, $versionNo )
+    public function getVatRateId($fieldId, $versionNo)
     {
         $query = $this->handler->createSelectQuery();
         $query
-            ->select( 'data_text' )
-            ->from( $this->handler->quoteTable( 'ezcontentobject_attribute' ) )
+            ->select('data_text')
+            ->from($this->handler->quoteTable('ezcontentobject_attribute'))
             ->where(
                 $query->expr->lAnd(
                     $query->expr->eq(
-                        $this->handler->quoteColumn( 'id' ),
-                        $query->bindValue( $fieldId, null, PDO::PARAM_INT )
+                        $this->handler->quoteColumn('id'),
+                        $query->bindValue($fieldId, null, PDO::PARAM_INT)
                     ),
                     $query->expr->eq(
-                        $this->handler->quoteColumn( 'version' ),
-                        $query->bindValue( $versionNo, null, PDO::PARAM_INT )
+                        $this->handler->quoteColumn('version'),
+                        $query->bindValue($versionNo, null, PDO::PARAM_INT)
                     )
                 )
             );
@@ -66,10 +64,11 @@ class DoctrineDatabase extends Gateway
         $statement->execute();
 
         $rowDataText = $statement->fetchColumn();
-        if ( empty( $rowDataText ) )
-            throw new VatIdentifierNotFoundException(  'Vat Identifier for ', $fieldId . ' - ' . $versionNo );
+        if (empty($rowDataText)) {
+            throw new VatIdentifierNotFoundException('Vat Identifier for ', $fieldId.' - '.$versionNo);
+        }
 
-        list( $vatRateId ) = explode( ',', $rowDataText );
+        list($vatRateId) = explode(',', $rowDataText);
 
         return $vatRateId;
     }

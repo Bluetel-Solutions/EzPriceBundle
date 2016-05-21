@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace EzSystems\EzPriceBundle\Core\Vat;
 
@@ -11,54 +11,52 @@ use Symfony\Component\HttpFoundation\Session\Session;
 class UserCountry implements UserCountryInterface
 {
     /**
-     * Session
-     * 
+     * Session.
+     *
      * @var Session
      */
     protected $session;
 
     /**
      * The country that we should default to if the users country cannot
-     * be found. Needs to be an Alpha2 code for the country
-     * 
+     * be found. Needs to be an Alpha2 code for the country.
+     *
      * @var string
      */
     protected $defaultUserCountry;
 
     /**
-     * The name of the session variable that contains the users country
-     * 
+     * The name of the session variable that contains the users country.
+     *
      * @var string
      */
     protected $countrySessionVariableName;
 
     /**
-     * __construct
-     * 
-     * @param Session $session               
-     * @param string       $defaultUserCountry         
-     * @param string       $countrySessionVariableName 
+     * __construct.
+     *
+     * @param Session $session
+     * @param string  $defaultUserCountry
+     * @param string  $countrySessionVariableName
      */
     public function __construct(
-        Session $session, 
+        Session $session,
         $defaultUserCountry,
-        $countrySessionVariableName = "UserPreferredCountry"
-    )
-    {
+        $countrySessionVariableName = 'UserPreferredCountry'
+    ) {
         $this->session = $session;
         $this->defaultUserCountry = $defaultUserCountry;
         $this->countrySessionVariableName = $countrySessionVariableName;
     }
 
     /**
-     * Used to fetch the currect users country from the session, If it cannot 
-     * be found the the default country will be returned
-     * 
+     * Used to fetch the currect users country from the session, If it cannot
+     * be found the the default country will be returned.
+     *
      * @return string
      */
     public function fetchUsersCountry()
     {
-
         if ($this->session->has($this->countrySessionVariableName)) {
             // Fetch the users country from their session
             return $this->session->get($this->countrySessionVariableName);

@@ -5,7 +5,6 @@
  * @copyright Copyright (C) eZ Systems AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-
 namespace EzSystems\EzPriceBundle\Core\Price;
 
 use EzSystems\EzPriceBundle\API\Price\ContentVatService as ContentVatServiceInterface;
@@ -26,7 +25,7 @@ class ContentVatService implements ContentVatServiceInterface
 
     /**
      * @param \EzSystems\EzPriceBundle\SPI\Persistence\Price\ContentVatHandler $contentVatHandler
-     * @param \EzSystems\EzPriceBundle\API\Price\VatService $vatService;
+     * @param \EzSystems\EzPriceBundle\API\Price\VatService                    $vatService;
      */
     public function __construct(ContentVatHandler $contentVatHandler, VatService $vatService)
     {
@@ -35,7 +34,7 @@ class ContentVatService implements ContentVatServiceInterface
     }
 
     /**
-     * Returns the vatRate associated with $fieldId and $versionNo
+     * Returns the vatRate associated with $fieldId and $versionNo.
      *
      * @param $fieldId
      * @param $versionNo

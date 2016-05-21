@@ -5,7 +5,6 @@
  * @copyright Copyright (C) eZ Systems AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-
 namespace EzSystems\EzPriceBundle\Tests\eZ\Publish\Core\FieldType\Price\PriceTest;
 
 use eZ\Publish\Core\FieldType\Tests\FieldTypeTest;
@@ -23,109 +22,108 @@ class PriceTest extends FieldTypeTest
     protected function createFieldTypeUnderTest()
     {
         $fieldType = new PriceType();
-        $fieldType->setTransformationProcessor( $this->getTransformationProcessorMock() );
+        $fieldType->setTransformationProcessor($this->getTransformationProcessorMock());
 
         return $fieldType;
     }
 
     protected function getValidatorConfigurationSchemaExpectation()
     {
-        return array();
+        return [];
     }
 
     protected function getSettingsSchemaExpectation()
     {
-        return array();
+        return [];
     }
 
     protected function getEmptyValueExpectation()
     {
-        return new PriceValue;
+        return new PriceValue();
     }
 
     public function provideInvalidInputForAcceptValue()
     {
-        return array(
-            array(
+        return [
+            [
                 'foo',
                 'eZ\\Publish\\Core\\Base\\Exceptions\\InvalidArgumentException',
-            ),
-            array(
-                array(),
+            ],
+            [
+                [],
                 'eZ\\Publish\\Core\\Base\\Exceptions\\InvalidArgumentException',
-            ),
-            array(
-                new PriceValue( 'foo' ),
+            ],
+            [
+                new PriceValue('foo'),
                 'eZ\\Publish\\Core\\Base\\Exceptions\\InvalidArgumentException',
-            ),
-        );
+            ],
+        ];
     }
-
 
     public function provideValidInputForAcceptValue()
     {
-        return array(
-            array(
+        return [
+            [
                 null,
-                new PriceValue,
-            ),
-            array(
+                new PriceValue(),
+            ],
+            [
                 42.23,
-                new PriceValue( 42.23 ),
-            ),
-            array(
+                new PriceValue(42.23),
+            ],
+            [
                 23,
-                new PriceValue( 23. ),
-            ),
-            array(
-                new PriceValue( 23.42 ),
-                new PriceValue( 23.42 ),
-            ),
-        );
+                new PriceValue(23.),
+            ],
+            [
+                new PriceValue(23.42),
+                new PriceValue(23.42),
+            ],
+        ];
     }
 
     public function provideInputForToHash()
     {
-        return array(
-            array(
-                new PriceValue,
+        return [
+            [
+                new PriceValue(),
                 null,
-            ),
-            array(
-                new PriceValue( 23.42 ),
-                array( 'price' => 23.42, 'isVatIncluded' => true ),
-            ),
-            array(
-                new PriceValue( 23.42, false ),
-                array( 'price' => 23.42, 'isVatIncluded' => false ),
-            ),
-        );
+            ],
+            [
+                new PriceValue(23.42),
+                ['price' => 23.42, 'isVatIncluded' => true],
+            ],
+            [
+                new PriceValue(23.42, false),
+                ['price' => 23.42, 'isVatIncluded' => false],
+            ],
+        ];
     }
 
     public function provideInputForFromHash()
     {
-        return array(
-            array(
+        return [
+            [
                 null,
-                new PriceValue,
-            ),
-            array(
-                array( 'price' => 23.42 ),
-                new PriceValue( 23.42 ),
-            ),
-            array(
-                array( 'price' => 23.42, 'isVatIncluded' => false ),
-                new PriceValue( 23.42, false ),
-            ),
-            array(
-                array( 'price' => 23.42, 'isVatIncluded' => true ),
-                new PriceValue( 23.42, true ),
-            ),
-            array(
-                array( 'price' => 23.42, 'isVatIncluded' => true ),
-                new PriceValue( 23.42, true ),
-            ),
-        );
+                new PriceValue(),
+            ],
+            [
+                ['price' => 23.42],
+                new PriceValue(23.42),
+            ],
+            [
+                ['price' => 23.42, 'isVatIncluded' => false],
+                new PriceValue(23.42, false),
+            ],
+            [
+                ['price' => 23.42, 'isVatIncluded' => true],
+                new PriceValue(23.42, true),
+            ],
+            [
+                ['price' => 23.42, 'isVatIncluded' => true],
+                new PriceValue(23.42, true),
+            ],
+        ];
     }
 
     protected function provideFieldTypeIdentifier()
@@ -135,19 +133,19 @@ class PriceTest extends FieldTypeTest
 
     public function provideDataForGetName()
     {
-        return array(
-            array( $this->getEmptyValueExpectation(), "" ),
-            array( new PriceValue( 23.42 ), "23.42" )
-        );
+        return [
+            [$this->getEmptyValueExpectation(), ''],
+            [new PriceValue(23.42), '23.42'],
+        ];
     }
 
     public function provideValidDataForValidate()
     {
-        return array(
-            array(
-                array(),
-                new PriceValue( 7.5 ),
-            ),
-        );
+        return [
+            [
+                [],
+                new PriceValue(7.5),
+            ],
+        ];
     }
 }

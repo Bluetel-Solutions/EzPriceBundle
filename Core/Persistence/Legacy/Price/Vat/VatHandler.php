@@ -5,13 +5,11 @@
  * @copyright Copyright (C) eZ Systems AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-
 namespace EzSystems\EzPriceBundle\Core\Persistence\Legacy\Price\Vat;
 
 use EzSystems\EzPriceBundle\API\Price\Values\VatRate;
-use EzSystems\EzPriceBundle\Core\Persistence\Legacy\Price\Vat\Gateway;
-use EzSystems\EzPriceBundle\SPI\Persistence\Price\VatHandler as VatHandlerInterface;
 use EzSystems\EzPriceBundle\API\Vat\Handler\DynamicVatHandler;
+use EzSystems\EzPriceBundle\SPI\Persistence\Price\VatHandler as VatHandlerInterface;
 
 class VatHandler implements VatHandlerInterface
 {
@@ -21,16 +19,16 @@ class VatHandler implements VatHandlerInterface
     protected $gateway;
 
     /**
-     * The dynamic vat handler
-     * 
+     * The dynamic vat handler.
+     *
      * @var DynamicVatHandler|null
      */
     protected $dynamicVatHandler;
 
     /**
      * @param \EzSystems\EzPriceBundle\Core\Persistence\Legacy\Price\Vat\Gateway $gateway
-     * @param DynamicVatHandler $dynamicVatHandler The dynamic vat handler to use is the vat type is set to
-     * dynamic vat
+     * @param DynamicVatHandler                                                  $dynamicVatHandler The dynamic vat handler to use is the vat type is set to
+     *                                                                                              dynamic vat
      */
     public function __construct(Gateway $gateway, DynamicVatHandler $dynamicVatHandler = null)
     {
@@ -39,7 +37,7 @@ class VatHandler implements VatHandlerInterface
     }
 
     /**
-     * Loads the VAT rate data for $vatRateId
+     * Loads the VAT rate data for $vatRateId.
      *
      * @param mixed $vatRateId
      *
@@ -57,9 +55,8 @@ class VatHandler implements VatHandlerInterface
             }
         }
 
-
         $vatRateData = $this->gateway->getVatRateData($vatRateId);
-        
+
         return new VatRate($vatRateData);
     }
 }
