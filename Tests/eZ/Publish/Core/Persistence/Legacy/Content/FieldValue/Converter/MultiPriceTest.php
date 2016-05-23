@@ -5,17 +5,15 @@
  * @copyright Copyright (C) eZ Systems AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-
 namespace EzSystems\EzPriceBundle\Tests\eZ\Publish\Core\Persistence\Legacy\Content\FieldValue\Converter;
 
-use eZ\Publish\SPI\Persistence\Content\FieldValue;
 use eZ\Publish\Core\Persistence\Legacy\Content\StorageFieldValue;
+use eZ\Publish\SPI\Persistence\Content\FieldValue;
 use EzSystems\EzPriceBundle\eZ\Publish\Core\Persistence\Legacy\Content\FieldValue\Converter\MultiPrice as MultiPriceConverter;
 use PHPUnit_Framework_TestCase;
-use DOMDocument;
 
 /**
- * Test case for Price converter in Legacy storage
+ * Test case for Price converter in Legacy storage.
  *
  * @group fieldType
  * @group ezprice
@@ -30,7 +28,7 @@ class MultiPriceTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         parent::setUp();
-        $this->converter = new MultiPriceConverter;
+        $this->converter = new MultiPriceConverter();
     }
 
     /**
@@ -45,16 +43,16 @@ class MultiPriceTest extends PHPUnit_Framework_TestCase
             array(
                 'data' => array(
                     'isVatIncluded' => $isVatIncluded,
-                    'vatRateId' => $vatRateId
-                )
+                    'vatRateId'     => $vatRateId,
+                ),
             )
         );
 
-        $storageFieldValue = new StorageFieldValue;
+        $storageFieldValue = new StorageFieldValue();
 
-        $this->converter->toStorageValue( $fieldValue, $storageFieldValue );
+        $this->converter->toStorageValue($fieldValue, $storageFieldValue);
 
-        self::assertEquals( "1,1", $storageFieldValue->dataText );
+        self::assertEquals('1,1', $storageFieldValue->dataText);
     }
 
     /**
@@ -67,15 +65,15 @@ class MultiPriceTest extends PHPUnit_Framework_TestCase
 
         $storageFieldValue = new StorageFieldValue(
             array(
-                'dataText' => "$vatRateId,$isVatIncluded"
+                'dataText' => "$vatRateId,$isVatIncluded",
             )
         );
 
-        $fieldValue = new FieldValue;
+        $fieldValue = new FieldValue();
 
-        $this->converter->toFieldValue( $storageFieldValue, $fieldValue );
+        $this->converter->toFieldValue($storageFieldValue, $fieldValue);
 
-        self::assertEquals( $vatRateId, $fieldValue->data['vatRateId'] );
-        self::assertEquals( $isVatIncluded, $fieldValue->data['isVatIncluded'] );
+        self::assertEquals($vatRateId, $fieldValue->data['vatRateId']);
+        self::assertEquals($isVatIncluded, $fieldValue->data['isVatIncluded']);
     }
 }

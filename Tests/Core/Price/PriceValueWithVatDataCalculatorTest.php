@@ -5,13 +5,12 @@
  * @copyright Copyright (C) eZ Systems AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-
 namespace EzSystems\EzPriceBundle\Tests\Core\Price;
 
 use EzSystems\EzPriceBundle\API\Price\Values\PriceWithVatData;
 use EzSystems\EzPriceBundle\API\Price\Values\VatRate;
-use EzSystems\EzPriceBundle\eZ\Publish\Core\FieldType\Price\Value as PriceValue;
 use EzSystems\EzPriceBundle\Core\Price\PriceValueWithVatDataCalculator;
+use EzSystems\EzPriceBundle\eZ\Publish\Core\FieldType\Price\Value as PriceValue;
 use PHPUnit_Framework_TestCase;
 
 /**
@@ -31,15 +30,15 @@ class PriceValueWithVatDataCalculatorTest extends PHPUnit_Framework_TestCase
     {
         $price = new PriceValue(
             array(
-                'price' => 100,
-                'isVatIncluded' => false
+                'price'         => 100,
+                'isVatIncluded' => false,
             )
         );
 
         $vatRate = new VatRate(
             array(
                 'percentage' => 20.6,
-                'name' => 'test'
+                'name'       => 'test',
             )
         );
 
@@ -51,11 +50,11 @@ class PriceValueWithVatDataCalculatorTest extends PHPUnit_Framework_TestCase
         self::assertEquals(
             new PriceWithVatData(
                 array(
-                    'isVatIncluded' => false,
-                    'price' => 100,
+                    'isVatIncluded'     => false,
+                    'price'             => 100,
                     'priceIncludingVat' => 120.6,
                     'priceExcludingVat' => 100.0,
-                    'vatRate'=> 20.6
+                    'vatRate'           => 20.6,
                 )
             ),
             $priceWithVat
@@ -64,31 +63,30 @@ class PriceValueWithVatDataCalculatorTest extends PHPUnit_Framework_TestCase
 
     public function testVatDataVatIncluded()
     {
-
         $price = new PriceValue(
             array(
-                'price' => 120.6,
-                'isVatIncluded' => true
+                'price'         => 120.6,
+                'isVatIncluded' => true,
             )
         );
 
         $vatRate = new VatRate(
             array(
                 'percentage' => 20.6,
-                'name' => 'test'
+                'name'       => 'test',
             )
         );
 
-        $priceWithVat = $this->calculator->getValueWithVatData( $price, $vatRate );
+        $priceWithVat = $this->calculator->getValueWithVatData($price, $vatRate);
 
         self::assertEquals(
             new PriceWithVatData(
                 array(
-                    'isVatIncluded' => true,
-                    'price' => 120.6,
+                    'isVatIncluded'     => true,
+                    'price'             => 120.6,
                     'priceIncludingVat' => 120.6,
                     'priceExcludingVat' => 100.0,
-                    'vatRate' => 20.6
+                    'vatRate'           => 20.6,
                 )
             ),
             $priceWithVat

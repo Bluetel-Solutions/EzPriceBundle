@@ -5,15 +5,14 @@
  * @copyright Copyright (C) eZ Systems AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-
 namespace EzSystems\EzPriceBundle\Tests\Core\MultiPrice;
 
-use Symfony\Component\HttpFoundation\Session\Session;
-use Symfony\Component\HttpFoundation\Session\Storage\MockFileSessionStorage;
+use eZ\Publish\Core\Persistence\Legacy\Tests\TestCase;
 use EzSystems\EzPriceBundle\Core\MultiPrice\CurrencyService;
 use EzSystems\EzPriceBundle\Core\Persistence\Legacy\MultiPrice\Currency\CurrencyHandler;
 use EzSystems\EzPriceBundle\Core\Persistence\Legacy\MultiPrice\Currency\Gateway\DoctrineDatabase;
-use eZ\Publish\Core\Persistence\Legacy\Tests\TestCase;
+use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Session\Storage\MockFileSessionStorage;
 
 /**
  * @covers \EzSystems\EzPriceBundle\Core\MultiPrice\CurrencyService
@@ -38,13 +37,13 @@ class CurrencyServiceTest extends TestCase
     {
         $mockSession = new Session(new MockFileSessionStorage());
 
-        $sessionVariableName = "TestCurrencyServiceCurrency";
+        $sessionVariableName = 'TestCurrencyServiceCurrency';
 
-        $defaultCurrency = "GBP";
+        $defaultCurrency = 'GBP';
 
         $currencyService = new CurrencyService($mockSession, $this->currencyHandler, $defaultCurrency, $sessionVariableName);
-        
-        $this->assertEquals("GBP", $currencyService->getUsersCurrencyCode());
+
+        $this->assertEquals('GBP', $currencyService->getUsersCurrencyCode());
     }
 
     /**
@@ -55,14 +54,14 @@ class CurrencyServiceTest extends TestCase
     {
         $mockSession = new Session(new MockFileSessionStorage());
 
-        $sessionVariableName = "TestCurrencyServiceCurrency";
+        $sessionVariableName = 'TestCurrencyServiceCurrency';
 
-        $mockSession->set($sessionVariableName, "EUR");
+        $mockSession->set($sessionVariableName, 'EUR');
 
-        $defaultCurrency = "GBP";
+        $defaultCurrency = 'GBP';
 
         $currencyService = new CurrencyService($mockSession, $this->currencyHandler, $defaultCurrency, $sessionVariableName);
-        
-        $this->assertEquals("EUR", $currencyService->getUsersCurrencyCode());
+
+        $this->assertEquals('EUR', $currencyService->getUsersCurrencyCode());
     }
 }

@@ -5,10 +5,8 @@
  * @copyright Copyright (C) eZ Systems AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-
 namespace EzSystems\EzPriceBundle\Tests\eZ\Publish\SPI\FieldType;
 
-use eZ\Publish\Core\Persistence\Legacy;
 use eZ\Publish\Core\FieldType;
 use eZ\Publish\SPI\Persistence\Content;
 use eZ\Publish\SPI\Tests\FieldType\BaseIntegrationTest;
@@ -29,7 +27,7 @@ class PriceIntegrationTest extends BaseIntegrationTest
     public function getCustomHandler()
     {
         $fieldType = new PriceType();
-        $fieldType->setTransformationProcessor( $this->getTransformationProcessor() );
+        $fieldType->setTransformationProcessor($this->getTransformationProcessor());
 
         return $this->getHandler(
             'ezprice',
@@ -51,7 +49,7 @@ class PriceIntegrationTest extends BaseIntegrationTest
     }
 
     /**
-     * Get field definition data values
+     * Get field definition data values.
      *
      * This is a PHPUnit data provider
      *
@@ -60,13 +58,13 @@ class PriceIntegrationTest extends BaseIntegrationTest
     public function getFieldDefinitionData()
     {
         return array(
-            array( 'fieldType', 'ezprice' ),
-            array( 'fieldTypeConstraints', new Content\FieldTypeConstraints() ),
+            array('fieldType', 'ezprice'),
+            array('fieldTypeConstraints', new Content\FieldTypeConstraints()),
         );
     }
 
     /**
-     * Get initial field value
+     * Get initial field value.
      *
      * @return \eZ\Publish\SPI\Persistence\Content\FieldValue
      */
@@ -74,7 +72,7 @@ class PriceIntegrationTest extends BaseIntegrationTest
     {
         return new Content\FieldValue(
             array(
-                'data'         => array( 'price' => 42.42, 'isVatIncluded' => true ),
+                'data'         => array('price' => 42.42, 'isVatIncluded' => true),
                 'externalData' => null,
                 'sortKey'      => 4242,
             )
@@ -92,7 +90,7 @@ class PriceIntegrationTest extends BaseIntegrationTest
     {
         return new Content\FieldValue(
             array(
-                'data'         => array( 'price' => 23.23, 'isVatIncluded' => true ),
+                'data'         => array('price' => 23.23, 'isVatIncluded' => true),
                 'externalData' => null,
                 'sortKey'      => 2323,
             )

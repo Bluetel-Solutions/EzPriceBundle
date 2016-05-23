@@ -5,11 +5,9 @@
  *
  * @author Bluetel Solutions <developers@bluetel.co.uk>
  * @author Joe Jones <jdj@bluetel.co.uk>
- * 
  * @copyright Copyright (C) eZ Systems AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-
 namespace EzSystems\EzPriceBundle\Core\Vat;
 
 use EzSystems\EzPriceBundle\API\Vat\CountryVatRulesService as CountryVatRulesServiceInterface;
@@ -17,20 +15,20 @@ use EzSystems\EzPriceBundle\API\Vat\Values\CountryVatRule;
 use EzSystems\EzPriceBundle\SPI\Persistence\Vat\CountryVatRulesHandler;
 
 /**
- * Service used to fetch vat rules
+ * Service used to fetch vat rules.
  */
 class CountryVatRulesService implements CountryVatRulesServiceInterface
 {
     /**
-     * Country Vat Rules handler, used to fetch vat rules
-     * 
+     * Country Vat Rules handler, used to fetch vat rules.
+     *
      * @var CountryVatRulesHandler
      */
     protected $countryVatRulesHandler;
 
     /**
-     * __construct 
-     * 
+     * __construct.
+     *
      * @param CountryVatRulesHandler $countryVatRulesHandler
      */
     public function __construct(CountryVatRulesHandler $countryVatRulesHandler)
@@ -39,10 +37,10 @@ class CountryVatRulesService implements CountryVatRulesServiceInterface
     }
 
     /**
-     * Fetch vat rules available for a country
-     * 
-     * @param  string $country The Alpha2 code of the country
-     * 
+     * Fetch vat rules available for a country.
+     *
+     * @param string $country The Alpha2 code of the country
+     *
      * @return CountryVatRule[]
      */
     public function getVatRulesForCountry($country)
@@ -51,10 +49,10 @@ class CountryVatRulesService implements CountryVatRulesServiceInterface
     }
 
     /**
-     * Fetch a vat rule by its ID
-     * 
-     * @param  int $id id to fetch the vat rule by
-     * 
+     * Fetch a vat rule by its ID.
+     *
+     * @param int $id id to fetch the vat rule by
+     *
      * @return CountryVatRule
      */
     public function getVatRuleById($id)

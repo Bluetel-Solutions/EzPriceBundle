@@ -5,17 +5,15 @@
  *
  * @author Bluetel Solutions <developers@bluetel.co.uk>
  * @author Joe Jones <jdj@bluetel.co.uk>
- * 
  * @copyright Copyright (C) eZ Systems AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-
 namespace EzSystems\EzPriceBundle\Core\Persistence\Legacy\Vat\CountryVatRules\Gateway;
 
+use eZ\Publish\Core\Persistence\Database\DatabaseHandler;
 use EzSystems\EzPriceBundle\API\Vat\Values\CountryVatRule;
 use EzSystems\EzPriceBundle\Core\Persistence\Legacy\Vat\CountryVatRules\Gateway;
 use EzSystems\EzPriceBundle\Core\Vat\CountryVatRuleNotFoundException;
-use eZ\Publish\Core\Persistence\Database\DatabaseHandler;
 use PDO;
 
 /**
@@ -24,14 +22,14 @@ use PDO;
 class DoctrineDatabase extends Gateway
 {
     /**
-     * Database handler
+     * Database handler.
      *
      * @var \eZ\Publish\Core\Persistence\Database\DatabaseHandler
      */
     protected $handler;
 
     /**
-     * Construct from database handler
+     * Construct from database handler.
      *
      * @param \eZ\Publish\Core\Persistence\Database\DatabaseHandler $handler
      */
@@ -48,28 +46,28 @@ class DoctrineDatabase extends Gateway
      * @throws CountryVatRuleNotFoundException if there are no VAT rates available for this country
      *
      * @return array all possible rules that can be applied to the users in the country
-     * specified
+     *               specified
      */
     public function getVatRulesForCountry($country)
     {
         $query = $this->handler->createSelectQuery();
 
-        /**
+        /*
          * Query gets all rows from the ezvatrule table where the country is either the wildcard
          * or the country specified.
          */
         $query
-            ->select( array( 'vat_type', 'country_code', 'id' ) )
-            ->from( $this->handler->quoteTable( 'ezvatrule' ) )
+            ->select(array('vat_type', 'country_code', 'id'))
+            ->from($this->handler->quoteTable('ezvatrule'))
             ->where(
                 $query->expr->LOr(
                     $query->expr->eq(
-                        $this->handler->quoteColumn( 'country_code' ),
-                        $query->bindValue( $country, null, PDO::PARAM_STR )
+                        $this->handler->quoteColumn('country_code'),
+                        $query->bindValue($country, null, PDO::PARAM_STR)
                     ),
                     $query->expr->eq(
-                        $this->handler->quoteColumn( 'country_code' ),
-                        $query->bindValue( "*", null, PDO::PARAM_STR )
+                        $this->handler->quoteColumn('country_code'),
+                        $query->bindValue('*', null, PDO::PARAM_STR)
                     )
                 )
             );
@@ -84,24 +82,24 @@ class DoctrineDatabase extends Gateway
     }
 
     /**
-     * Fetch a single vat rule by its ID
-     * 
-     * @param  int $id the ID to fetch the vat rule by
+     * Fetch a single vat rule by its ID.
+     *
+     * @param int $id the ID to fetch the vat rule by
      *
      * @throws CountryVatRuleNotFoundException if the vat rule with this ID cannot be found§
-     * 
+     *
      * @return array the data for the vatrule retrieved
      */
     public function getVatRuleById($id)
     {
         $query = $this->handler->createSelectQuery();
         $query
-            ->select( array( 'vat_type', 'country_code', 'id') )
-            ->from( $this->handler->quoteTable( 'ezvatrule' ) )
+            ->select(array('vat_type', 'country_code', 'id'))
+            ->from($this->handler->quoteTable('ezvatrule'))
             ->where(
                 $query->expr->eq(
-                    $this->handler->quoteColumn( 'id' ),
-                    $query->bindValue( $id, null, PDO::PARAM_INT )
+                    $this->handler->quoteColumn('id'),
+                    $query->bindValue($id, null, PDO::PARAM_INT)
                 )
             );
 
@@ -116,10 +114,10 @@ class DoctrineDatabase extends Gateway
     }
 
     /**
-     * Used to translate the data retrieved by this gateway into CountryVatRule objects
-     * 
-     * @param  array $data the data to populate the CountryVatRule object with
-     * 
+     * Used to translate the data retrieved by this gateway into CountryVatRule objects.
+     *
+     * @param array $data the data to populate the CountryVatRule object with
+     *
      * @return CountryVatRule with properties from $data
      */
     public function translateDataToCountryVatRule($data)
@@ -128,6 +126,7 @@ class DoctrineDatabase extends Gateway
         $countryVatRule->id = $data['id'];
         $countryVatRule->countryCode = $data['country_code'];
         $countryVatRule->vatRateId = $data['vat_type'];
+
         return $countryVatRule;
     }
 }

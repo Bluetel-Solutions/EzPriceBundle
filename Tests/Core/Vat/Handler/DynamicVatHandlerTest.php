@@ -5,16 +5,15 @@
  * @copyright Copyright (C) eZ Systems AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-
 namespace EzSystems\EzPriceBundle\Tests\Core\MultiPrice;
 
+use eZ\Publish\Core\Persistence\Legacy\Tests\TestCase;
 use EzSystems\EzPriceBundle\API\Vat\Values\CountryVatRule;
+use EzSystems\EzPriceBundle\Core\Persistence\Legacy\Vat\CountryVatRules\CountryVatRuleNotFoundException;
+use EzSystems\EzPriceBundle\Core\Persistence\Legacy\Vat\CountryVatRules\CountryVatRulesHandler;
+use EzSystems\EzPriceBundle\Core\Vat\CountryVatRulesService;
 use EzSystems\EzPriceBundle\Core\Vat\Handler\DynamicVatHandler;
 use EzSystems\EzPriceBundle\Core\Vat\UserCountry;
-use EzSystems\EzPriceBundle\Core\Vat\CountryVatRulesService;
-use EzSystems\EzPriceBundle\Core\Persistence\Legacy\Vat\CountryVatRules\CountryVatRulesHandler;
-use EzSystems\EzPriceBundle\Core\Persistence\Legacy\Vat\CountryVatRules\CountryVatRuleNotFoundException;
-use eZ\Publish\Core\Persistence\Legacy\Tests\TestCase;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\Storage\MockFileSessionStorage;
 
@@ -33,15 +32,15 @@ class DynamicVatHandlerTest extends TestCase
             $this->getMockCountryVatRulesService(
                 array(
                     $this->getTestVatRuleData(
-                        "GB",
-                        "2",
-                        "0"
+                        'GB',
+                        '2',
+                        '0'
                     ),
                     $this->getTestVatRuleData(
-                        "*",
-                        "1",
-                        "1"
-                    )
+                        '*',
+                        '1',
+                        '1'
+                    ),
                 )
             ),
             $this->getCountryService(),
@@ -49,8 +48,8 @@ class DynamicVatHandlerTest extends TestCase
         );
 
         $this->assertEquals(
-            "2",
-            $dynamicVatHandler->getCorrectVatRateId("GB")
+            '2',
+            $dynamicVatHandler->getCorrectVatRateId('GB')
         );
     }
 
@@ -64,15 +63,15 @@ class DynamicVatHandlerTest extends TestCase
             $this->getMockCountryVatRulesService(
                 array(
                     $this->getTestVatRuleData(
-                        "*",
-                        "1",
-                        "1"
+                        '*',
+                        '1',
+                        '1'
                     ),
                     $this->getTestVatRuleData(
-                        "GB",
-                        "2",
-                        "0"
-                    )
+                        'GB',
+                        '2',
+                        '0'
+                    ),
                 )
             ),
             $this->getCountryService(),
@@ -80,8 +79,8 @@ class DynamicVatHandlerTest extends TestCase
         );
 
         $this->assertEquals(
-            "2",
-            $dynamicVatHandler->getCorrectVatRateId("GB")
+            '2',
+            $dynamicVatHandler->getCorrectVatRateId('GB')
         );
     }
 
@@ -92,9 +91,9 @@ class DynamicVatHandlerTest extends TestCase
     public function testGetCorrectVatRateIdDefaultRule()
     {
         $defaultRuleData = $this->getTestVatRuleData(
-                            "GBP",
-                            "1",
-                            "6"
+                            'GBP',
+                            '1',
+                            '6'
                         );
 
         $dynamicVatHandler = new DynamicVatHandler(
@@ -105,7 +104,7 @@ class DynamicVatHandlerTest extends TestCase
 
         $this->assertEquals(
             $defaultRuleData['vat_type'],
-            $dynamicVatHandler->getCorrectVatRateId("GB")
+            $dynamicVatHandler->getCorrectVatRateId('GB')
         );
     }
 
@@ -113,7 +112,7 @@ class DynamicVatHandlerTest extends TestCase
     {
         $mockSession = new Session(new MockFileSessionStorage());
 
-        return new UserCountry($mockSession, "GB");
+        return new UserCountry($mockSession, 'GB');
     }
 
     public function getMockCountryVatRulesService($vatRules)
@@ -129,6 +128,7 @@ class DynamicVatHandlerTest extends TestCase
                 $this->returnValue($vatRules)
             );
         $countryVatRulesHandler = new CountryVatRulesHandler($countryVatRulesGateway);
+
         return new CountryVatRulesService($countryVatRulesHandler);
     }
 
@@ -141,15 +141,16 @@ class DynamicVatHandlerTest extends TestCase
         );
         $countryVatRulesGateway->method('getVatRulesForCountry')
             ->will(
-                $this->throwException(new CountryVatRuleNotFoundException("Vat rule not found"))
+                $this->throwException(new CountryVatRuleNotFoundException('Vat rule not found'))
             );
         $countryVatRulesGateway->method('getVatRuleById')
             ->will(
                 $this->returnValue($defaultRule)
             );
         $countryVatRulesHandler = new CountryVatRulesHandler($countryVatRulesGateway);
+
         return new CountryVatRulesService($countryVatRulesHandler);
-    }    
+    }
 
     public function getTestVatRule($data)
     {
@@ -157,6 +158,7 @@ class DynamicVatHandlerTest extends TestCase
         $countryVatRule->id = $data['id'];
         $countryVatRule->countryCode = $data['country_code'];
         $countryVatRule->vatRateId = $data['vat_type'];
+
         return $countryVatRule;
     }
 
@@ -164,9 +166,8 @@ class DynamicVatHandlerTest extends TestCase
     {
         return array(
             'country_code' => $countryCode,
-            'id' => $id,
-            'vat_type' => $vatRateId
+            'id'           => $id,
+            'vat_type'     => $vatRateId,
         );
     }
-
 }
