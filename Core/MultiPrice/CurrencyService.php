@@ -5,11 +5,9 @@
  *
  * @author Bluetel Solutions <developers@bluetel.co.uk>
  * @author Joe Jones <jdj@bluetel.co.uk>
- * 
  * @copyright Copyright (C) eZ Systems AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-
 namespace EzSystems\EzPriceBundle\Core\MultiPrice;
 
 use EzSystems\EzPriceBundle\API\MultiPrice\CurrencyService as CurrencyServiceInterface;
@@ -23,48 +21,47 @@ use Symfony\Component\HttpFoundation\Session\Session;
 class CurrencyService implements CurrencyServiceInterface
 {
     /**
-     * The users current session
-     * 
+     * The users current session.
+     *
      * @var Session
      */
     protected $session;
 
     /**
-     * Currency handler, used to retrive a currency object
-     * 
+     * Currency handler, used to retrive a currency object.
+     *
      * @var CurrencyHandler
      */
     protected $currencyHandler;
 
     /**
-     * The default currency to use if we cannot find one for the user
-     * 
+     * The default currency to use if we cannot find one for the user.
+     *
      * @var string
      */
     protected $defaultUserCurrency;
 
     /**
      * The session variable name of the currency session variable.
-     * 
+     *
      * @var string
      */
     protected $currencySessionVariableName;
 
     /**
-     * __construct 
-     * 
-     * @param Session    $session
-     * @param CurrencyHandler $currencyHandler             
-     * @param string          $defaultUserCurrency 3 character code for the currency
+     * __construct.
+     *
+     * @param Session         $session
+     * @param CurrencyHandler $currencyHandler
+     * @param string          $defaultUserCurrency         3 character code for the currency
      * @param string          $currencySessionVariableName defaults to UserPreferredCurrency
      */
     public function __construct(
         Session $session,
         CurrencyHandler $currencyHandler,
         $defaultUserCurrency,
-        $currencySessionVariableName = "UserPreferredCurrency"
-    )
-    {
+        $currencySessionVariableName = 'UserPreferredCurrency'
+    ) {
         $this->session = $session;
         $this->currencyHandler = $currencyHandler;
         $this->defaultUserCurrency = $defaultUserCurrency;
@@ -72,8 +69,8 @@ class CurrencyService implements CurrencyServiceInterface
     }
 
     /**
-     * Get the currency code for the current user
-     * 
+     * Get the currency code for the current user.
+     *
      * @return string the current users currency code
      */
     public function getUsersCurrencyCode()
@@ -89,7 +86,7 @@ class CurrencyService implements CurrencyServiceInterface
 
     /**
      * Fetch the currency code that should be used for the current user.
-     * 
+     *
      * @return Currency the currency object for the current user.
      */
     public function getUsersCurrency()

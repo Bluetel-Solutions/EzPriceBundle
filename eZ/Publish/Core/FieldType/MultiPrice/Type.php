@@ -5,24 +5,22 @@
  *
  * @author Bluetel Solutions <developers@bluetel.co.uk>
  * @author Joe Jones <jdj@bluetel.co.uk>
- * 
  * @copyright Copyright (C) eZ Systems AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-
 namespace EzSystems\EzPriceBundle\eZ\Publish\Core\FieldType\MultiPrice;
 
-use EzSystems\EzPriceBundle\API\MultiPrice\Values\Price as PriceValueObject;
 use eZ\Publish\Core\Base\Exceptions\InvalidArgumentType;
 use eZ\Publish\Core\FieldType\FieldType;
 use eZ\Publish\Core\FieldType\Value as BaseValue;
 use eZ\Publish\SPI\FieldType\Value as SPIValue;
 use eZ\Publish\SPI\Persistence\Content\FieldValue;
+use EzSystems\EzPriceBundle\API\MultiPrice\Values\Price as PriceValueObject;
 
 class Type extends FieldType
 {
     /**
-     * Returns the field type identifier for this field type
+     * Returns the field type identifier for this field type.
      *
      * @return string
      */
@@ -41,12 +39,13 @@ class Type extends FieldType
      *
      * @return string
      */
-    public function getName( SPIValue $value )
+    public function getName(SPIValue $value)
     {
         if (count($value->prices) == 0) {
-            return "";
+            return '';
         }
         $firstPrice = array_slice($value->prices, 0, 1);
+
         return $firstPrice[0]->value;
     }
 
@@ -58,7 +57,7 @@ class Type extends FieldType
      */
     public function getEmptyValue()
     {
-        return new Value;
+        return new Value();
     }
 
     /**
@@ -66,9 +65,9 @@ class Type extends FieldType
      *
      * @param mixed $value
      *
-     * @return boolean
+     * @return bool
      */
-    public function isEmptyValue( SPIValue $value )
+    public function isEmptyValue(SPIValue $value)
     {
         return count($value->prices) === 0;
     }
@@ -79,7 +78,7 @@ class Type extends FieldType
      * @param \EzSystems\EzPriceBundle\eZ\Publish\Core\FieldType\MultiPrice\Value $inputValue
      *
      * @throws InvalidArgumentException if the argument supplied is not a MultiPrice Value object
-     * 
+     *
      * @return \EzSystems\EzPriceBundle\eZ\Publish\Core\FieldType\MultiPrice\Value The potentially converted and structurally plausible value.
      */
     protected function createValueFromInput($inputValue)
@@ -89,23 +88,25 @@ class Type extends FieldType
         } elseif (is_array($inputValue) && array_key_exists('prices', $inputValue)) {
             $inputValue['vatTypeId'] = array_key_exists('vatTypeId', $inputValue) ? $inputValue['vatTypeId'] : null;
             $inputValue['isVatIncluded'] = array_key_exists('isVatIncluded', $inputValue) ? $inputValue['isVatIncluded'] : true;
+
             return new Value($inputValue['prices'], $inputValue['vatTypeId'], $inputValue['isVatIncluded']);
         }
+
         return $inputValue;
     }
 
     /**
      * Throws an exception if value structure is not of expected format.
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException If the value does not match the expected structure.
      *
      * @param \EzSystems\EzPriceBundle\eZ\Publish\Core\FieldType\MultiPrice\Value $value
+     *
+     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException If the value does not match the expected structure.
      *
      * @return void
      */
     protected function checkValueStructure(BaseValue $value)
     {
-        
         if (!is_array($value->prices)) {
             throw new InvalidArgumentType(
                     '$value->prices',
@@ -118,18 +119,16 @@ class Type extends FieldType
         foreach ($value->prices as $currency => $price) {
             if (!$price instanceof PriceValueObject) {
                 throw new InvalidArgumentType(
-                    '$value->prices[\'' . $currency . '\']',
+                    '$value->prices[\''.$currency.'\']',
                     '\EzSystems\EzPriceBundle\API\MultiPrice\Values\Price',
                     $price
                 );
-
             } elseif (!is_float($price->value) && !is_int($price->value)) {
                 throw new InvalidArgumentType(
-                    '$value->prices[\'' . $currency . '\']->value',
+                    '$value->prices[\''.$currency.'\']->value',
                     'float|int',
                     $price->value
                 );
-
             }
         }
         // Validate vatTypeId, should not be null
@@ -157,14 +156,15 @@ class Type extends FieldType
      *
      * @return array
      */
-    protected function getSortInfo( BaseValue $value )
+    protected function getSortInfo(BaseValue $value)
     {
         $firstPrice = array_slice($value->prices, 0, 1);
-        return (int)($firstPrice->value * 100.00);
+
+        return (int) ($firstPrice->value * 100.00);
     }
 
     /**
-     * Converts an $hash to the Value defined by the field type
+     * Converts an $hash to the Value defined by the field type.
      *
      * @param mixed $hash
      *
@@ -172,8 +172,7 @@ class Type extends FieldType
      */
     public function fromHash($hash)
     {
-        if ($hash === null || !array_key_exists('prices', $hash))
-        {
+        if ($hash === null || !array_key_exists('prices', $hash)) {
             return $this->getEmptyValue();
         }
         foreach ($hash['prices'] as $currency => $price) {
@@ -186,28 +185,28 @@ class Type extends FieldType
     }
 
     /**
-     * Converts a $Value to a hash
+     * Converts a $Value to a hash.
      *
      * @param \EzSystems\EzPriceBundle\eZ\Publish\Core\FieldType\MultiPrice\Value $value
      *
      * @return mixed
      */
-    public function toHash( SPIValue $value )
+    public function toHash(SPIValue $value)
     {
-        if ( $this->isEmptyValue( $value ) )
-        {
-            return null;
+        if ($this->isEmptyValue($value)) {
+            return;
         }
         foreach ($value->prices as $currency => $price) {
-            $value->prices[$currency] = (array)$price;
+            $value->prices[$currency] = (array) $price;
         }
-        return (array)$value;
+
+        return (array) $value;
     }
 
     /**
-     * Returns whether the field type is searchable
+     * Returns whether the field type is searchable.
      *
-     * @return boolean
+     * @return bool
      */
     public function isSearchable()
     {
@@ -218,9 +217,9 @@ class Type extends FieldType
     {
         return new FieldValue(
             array(
-                'data' => null,
+                'data'         => null,
                 'externalData' => $this->toHash($value),
-                'sortKey' => null,
+                'sortKey'      => null,
             )
         );
     }
@@ -237,8 +236,8 @@ class Type extends FieldType
     public function fromPersistenceValue(FieldValue $fieldValue)
     {
         return new Value(
-            $fieldValue->externalData, 
-            $fieldValue->data['vatRateId'], 
+            $fieldValue->externalData,
+            $fieldValue->data['vatRateId'],
             $fieldValue->data['isVatIncluded']
         );
     }
